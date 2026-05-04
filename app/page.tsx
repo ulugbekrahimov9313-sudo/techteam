@@ -63,10 +63,11 @@ export default function Home() {
         borderBottom: scrolled ? "1px solid rgba(255,255,255,0.06)" : "none",
         transition: "all 0.3s ease",
       }}>
-        <div style={{ fontSize: "1.4rem", fontWeight: 700, letterSpacing: "-0.5px", display: "flex", alignItems: "center", gap: "0.3rem" }}>
-          <span style={{ color: "#00d4ff" }}>Dasturlash</span>
-          <span style={{ color: "#fff" }}>departamenti</span>
-        </div>
+        <img
+          src="/logo.png"
+          alt="Dasturlash departamenti"
+          style={{ height: "40px", width: "auto" }}
+        />
         <div style={{ display: "flex", gap: "2rem" }}>
           {["Xizmatlar", "Haqimizda", "Bog'lanish"].map((item, i) => {
             const ids = ["services", "about", "contact"];
