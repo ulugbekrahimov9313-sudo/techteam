@@ -66,7 +66,7 @@ export default function Home() {
         <img
           src="/logo.png"
           alt="Dasturlash departamenti"
-          style={{ height: "40px", width: "auto" }}
+          style={{ height: "55px", width: "auto" }}
         />
         <div style={{ display: "flex", gap: "2rem" }}>
           {["Xizmatlar", "Haqimizda", "Bog'lanish"].map((item, i) => {
