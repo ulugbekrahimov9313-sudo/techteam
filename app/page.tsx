@@ -34,10 +34,12 @@ const stats = [
 ];
 
 const projects = [
-  "Korporativ saytlar",
-  "Ichki boshqaruv panellari",
-  "Mobil xizmat ilovalari",
-  "Telegram bot loyihalari",
+  { name: "Judo Monitoring", desc: "Judo federatsiyasi uchun sportchilarni kuzatish va monitoring tizimi", icon: "🥋", color: "#00d4ff" },
+  { name: "DLP System", desc: "Ma'lumotlar sizib chiqishini oldini olish va nazorat qilish tizimi", icon: "🔒", color: "#a78bfa" },
+  { name: "SM & WM", desc: "Savdo va ombor menejment tizimi — biznesni avtomatlashtirish", icon: "📊", color: "#34d399" },
+  { name: "Paynet Integration", desc: "To'lov tizimi integratsiyasi va moliyaviy operatsiyalar platformasi", icon: "💳", color: "#fb923c" },
+  { name: "Korporativ saytlar", desc: "Zamonaviy va professional biznes veb-saytlari", icon: "🌐", color: "#00d4ff" },
+  { name: "Qo'shimcha loyihalar", desc: "Yana bir nechta loyihalarimiz ustida ishlamoqdamiz...", icon: "🚀", color: "#f43f5e" },
 ];
 
 export default function Home() {
@@ -609,8 +611,10 @@ export default function Home() {
             <h2 style={{ fontSize: isMobile ? "1.8rem" : "2.6rem", marginBottom: "1.5rem" }}>Loyihalar</h2>
             <div className="projects-grid" style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(3, 1fr)", gap: "1rem" }}>
               {projects.map((project) => (
-                <div key={project} style={{ padding: "1.25rem", borderRadius: "20px", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}>
-                  {project}
+                <div key={project.name} style={{ padding: "1.25rem", borderRadius: "20px", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}>
+                  <div style={{ fontSize: "1.6rem", marginBottom: "0.75rem" }}>{project.icon}</div>
+                  <h3 style={{ marginTop: 0, marginBottom: "0.6rem", color: project.color }}>{project.name}</h3>
+                  <p style={{ margin: 0, color: "rgba(255,255,255,0.72)", lineHeight: 1.7 }}>{project.desc}</p>
                 </div>
               ))}
             </div>
@@ -676,7 +680,24 @@ export default function Home() {
               <h3 style={{ margin: 0 }}>Sozlamalar</h3>
               <button onClick={closeSettings} style={{ background: "transparent", border: "none", color: "#fff", cursor: "pointer", fontSize: "1.2rem" }}>✕</button>
             </div>
-            <p style={{ margin: 0, color: "rgba(255,255,255,0.72)", lineHeight: 1.7 }}>Murakkab sozlamalar vaqtincha olib tashlandi. Hozir sahifa yengil va barqaror rejimda ishlaydi.</p>
+            <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "1rem", background: "rgba(255,255,255,0.04)", borderRadius: "10px" }}>
+                <span>Qorong'u rejim</span>
+                <span style={{ color: "#00d4ff" }}>✅ Yoqilgan</span>
+              </div>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "1rem", background: "rgba(255,255,255,0.04)", borderRadius: "10px" }}>
+                <span>Til</span>
+                <span style={{ color: "#00d4ff" }}>O'zbek</span>
+              </div>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "1rem", background: "rgba(255,255,255,0.04)", borderRadius: "10px" }}>
+                <span>Animatsiya</span>
+                <span style={{ color: "#00d4ff" }}>✅ Yoqilgan</span>
+              </div>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "1rem", background: "rgba(255,255,255,0.04)", borderRadius: "10px" }}>
+                <span>Bildirishnomalar</span>
+                <span style={{ color: "#00d4ff" }}>✅ Yoqilgan</span>
+              </div>
+            </div>
           </div>
         </div>
       ) : null}
@@ -747,25 +768,27 @@ export default function Home() {
               <h3 style={{ margin: 0 }}>Shaxsiy kabinet</h3>
               <button onClick={closeClientCabinet} style={{ background: "transparent", border: "none", color: "#fff", cursor: "pointer", fontSize: "1.2rem" }}>✕</button>
             </div>
-            <p style={{ color: "rgba(255,255,255,0.72)", lineHeight: 1.7, marginTop: 0 }}>Kabinet soddalashtirildi. Hozircha aloqa va ariza uchun pastdagi bo'limdan foydalaning.</p>
-            <button
-              onClick={() => {
-                closeClientCabinet();
-                scrollToSection("contact");
-              }}
-              style={{
-                padding: "0.95rem 1rem",
-                borderRadius: "14px",
-                border: "none",
-                background: "#00d4ff",
-                color: "#021018",
-                cursor: "pointer",
-                fontFamily: "inherit",
-                fontWeight: 700,
-              }}
-            >
-              Bog'lanish bo'limiga o'tish
-            </button>
+            <div>
+              <div style={{ display: "flex", flexDirection: "column", gap: "1rem", marginBottom: "1.5rem" }}>
+                <input type="text" placeholder="Ismingiz" style={{ padding: "0.9rem", borderRadius: "10px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.12)", color: "#fff", fontSize: "1rem", fontFamily: "inherit", outline: "none" }} />
+                <input type="tel" placeholder="Telefon raqamingiz" style={{ padding: "0.9rem", borderRadius: "10px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.12)", color: "#fff", fontSize: "1rem", fontFamily: "inherit", outline: "none" }} />
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem", marginBottom: "1.5rem" }}>
+                <div style={{ padding: "0.9rem", borderRadius: "10px", background: "rgba(255,255,255,0.04)", display: "flex", justifyContent: "space-between" }}>
+                  <span>Sayt yaratish</span><span style={{ color: "#f59e0b" }}>🟡 Ko'rilmoqda</span>
+                </div>
+                <div style={{ padding: "0.9rem", borderRadius: "10px", background: "rgba(255,255,255,0.04)", display: "flex", justifyContent: "space-between" }}>
+                  <span>Dizayn</span><span style={{ color: "#00d4ff" }}>✅ Bajarildi</span>
+                </div>
+              </div>
+              <button onClick={() => { closeClientCabinet(); scrollToSection("contact"); }} style={{ padding: "0.95rem 1rem", width: "100%", borderRadius: "10px", border: "none", background: "linear-gradient(135deg,#00d4ff,#0077ee)", color: "#fff", cursor: "pointer", fontFamily: "inherit", fontWeight: 700 }}>
+                Bog'lanish bo'limiga o'tish →
+              </button>
+              <div style={{ marginTop: "1rem", display: "flex", gap: "0.75rem" }}>
+                <a href="https://t.me/+998938229313" style={{ flex: 1, padding: "0.75rem", textAlign: "center", borderRadius: "8px", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.6)", textDecoration: "none", fontSize: "0.85rem" }}>📱 Telegram</a>
+                <a href="mailto:ulugbekrakximov4@gmail.com" style={{ flex: 1, padding: "0.75rem", textAlign: "center", borderRadius: "8px", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.6)", textDecoration: "none", fontSize: "0.85rem" }}>📧 Email</a>
+              </div>
+            </div>
           </div>
         </div>
       ) : null}
