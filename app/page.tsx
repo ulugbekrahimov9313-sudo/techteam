@@ -100,60 +100,120 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) {
-      return;
-    }
+    let animationFrameId = 0;
 
-    const context = canvas.getContext("2d");
-    if (!context) {
-      return;
-    }
+    if (canvasRef.current) {
+      const canvas = canvasRef.current;
+      const context = canvas.getContext("2d");
 
-    const drawBackground = () => {
-      const dpr = window.devicePixelRatio || 1;
-      const width = window.innerWidth;
-      const height = window.innerHeight;
+      if (context) {
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%dasturlash";
+        const fontSize = 13;
+        let drops: number[] = [];
+        const particles: { x: number; y: number; vx: number; vy: number; size: number; color: string }[] = [];
 
-      canvas.width = Math.floor(width * dpr);
-      canvas.height = Math.floor(height * dpr);
-      canvas.style.width = `${width}px`;
-      canvas.style.height = `${height}px`;
+        const initializeParticles = (width: number, height: number) => {
+          particles.length = 0;
 
-      context.setTransform(1, 0, 0, 1, 0, 0);
-      context.scale(dpr, dpr);
-      context.clearRect(0, 0, width, height);
+          for (let index = 0; index < 70; index += 1) {
+            particles.push({
+              x: Math.random() * width,
+              y: Math.random() * height,
+              vx: (Math.random() - 0.5) * 0.7,
+              vy: (Math.random() - 0.5) * 0.7,
+              size: Math.random() * 2 + 0.5,
+              color: Math.random() > 0.5 ? "#00d4ff" : "#7c3aed",
+            });
+          }
+        };
 
-      const gradient = context.createLinearGradient(0, 0, width, height);
-      gradient.addColorStop(0, "#020408");
-      gradient.addColorStop(1, "#071220");
-      context.fillStyle = gradient;
-      context.fillRect(0, 0, width, height);
+        const resizeCanvas = () => {
+          const dpr = window.devicePixelRatio || 1;
+          const width = window.innerWidth;
+          const height = window.innerHeight;
 
-      context.strokeStyle = "rgba(0, 212, 255, 0.08)";
-      context.lineWidth = 1;
+          canvas.width = Math.floor(width * dpr);
+          canvas.height = Math.floor(height * dpr);
+          canvas.style.width = `${width}px`;
+          canvas.style.height = `${height}px`;
 
-      for (let x = 0; x < width; x += 48) {
-        context.beginPath();
-        context.moveTo(x, 0);
-        context.lineTo(x, height);
-        context.stroke();
+          context.setTransform(1, 0, 0, 1, 0, 0);
+          context.scale(dpr, dpr);
+
+          drops = Array(Math.max(1, Math.floor(width / fontSize))).fill(1);
+          initializeParticles(width, height);
+        };
+
+        const draw = () => {
+          const width = window.innerWidth;
+          const height = window.innerHeight;
+
+          context.fillStyle = "rgba(2,4,8,0.06)";
+          context.fillRect(0, 0, width, height);
+          context.font = `${fontSize}px monospace`;
+
+          for (let index = 0; index < drops.length; index += 1) {
+            const char = chars[Math.floor(Math.random() * chars.length)];
+            context.fillStyle = `rgba(0,212,255,${Math.random() * 0.12 + 0.02})`;
+            context.fillText(char, index * fontSize, drops[index] * fontSize);
+
+            if (drops[index] * fontSize > height && Math.random() > 0.975) {
+              drops[index] = 0;
+            }
+
+            drops[index] += 1;
+          }
+
+          particles.forEach((particle, index) => {
+            particle.x += particle.vx;
+            particle.y += particle.vy;
+
+            if (particle.x < 0 || particle.x > width) {
+              particle.vx *= -1;
+            }
+
+            if (particle.y < 0 || particle.y > height) {
+              particle.vy *= -1;
+            }
+
+            context.beginPath();
+            context.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+            context.fillStyle = particle.color;
+            context.fill();
+
+            particles.slice(index + 1).forEach((nextParticle) => {
+              const distance = Math.hypot(particle.x - nextParticle.x, particle.y - nextParticle.y);
+
+              if (distance < 110) {
+                context.beginPath();
+                context.moveTo(particle.x, particle.y);
+                context.lineTo(nextParticle.x, nextParticle.y);
+                context.strokeStyle = `rgba(0,212,255,${0.12 * (1 - distance / 110)})`;
+                context.lineWidth = 0.5;
+                context.stroke();
+              }
+            });
+          });
+
+          animationFrameId = window.requestAnimationFrame(draw);
+        };
+
+        resizeCanvas();
+        draw();
+        window.addEventListener("resize", resizeCanvas);
+
+        return () => {
+          window.cancelAnimationFrame(animationFrameId);
+          window.removeEventListener("resize", resizeCanvas);
+          context.clearRect(0, 0, canvas.width, canvas.height);
+        };
       }
-
-      for (let y = 0; y < height; y += 48) {
-        context.beginPath();
-        context.moveTo(0, y);
-        context.lineTo(width, y);
-        context.stroke();
-      }
-    };
-
-    drawBackground();
-    window.addEventListener("resize", drawBackground);
+    }
 
     return () => {
-      window.removeEventListener("resize", drawBackground);
-      context.clearRect(0, 0, canvas.width, canvas.height);
+      if (animationFrameId) {
+        window.cancelAnimationFrame(animationFrameId);
+      }
     };
   }, []);
 
@@ -282,9 +342,12 @@ export default function Home() {
         ref={canvasRef}
         style={{
           position: "fixed",
-          inset: 0,
+          top: 0,
+          left: 0,
+          width: "100vw",
+          height: "100vh",
           zIndex: 0,
-          opacity: 0.45,
+          opacity: 0.75,
           pointerEvents: "none",
         }}
       />
