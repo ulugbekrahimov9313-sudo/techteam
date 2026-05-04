@@ -704,10 +704,21 @@ export default function Home() {
               <h3 style={{ margin: 0 }}>Jamoa</h3>
               <button onClick={closeTeam} style={{ background: "transparent", border: "none", color: "#fff", cursor: "pointer", fontSize: "1.2rem" }}>✕</button>
             </div>
-            <div style={{ display: "grid", gap: "0.75rem" }}>
-              <div>Ulug'bek Raximov</div>
-              <div>Frontend va full-stack rivojlantirish</div>
-              <div>Web, mobil va avtomatlashtirish loyihalari</div>
+            <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr 1fr" : "repeat(3,1fr)", gap: "1rem" }}>
+              {[
+                { name: "Tursunbekov Sardorbek", role: "Boshliq", img: "/boshliq.jpg.jpg" },
+                { name: "Muxtorov Farrux", role: "O'rinbosar", img: "/o'rinbosar.jpg" },
+                { name: "Yuldashev Islom", role: "PM Menejer", img: "/xodin 1.jpg" },
+                { name: "Raximov Ulug'bek", role: "Dasturchi", img: "/1-xodim.jpg" },
+                { name: "Bobur", role: "Dasturchi", img: "/2-xodim.jpg" },
+                { name: "Abdiyev Fayoz", role: "Dasturchi", img: "/3-xodim2.jpg" },
+              ].map((m) => (
+                <div key={m.name} style={{ textAlign: "center", padding: "1.25rem", background: "rgba(255,255,255,0.04)", borderRadius: "14px" }}>
+                  <img src={m.img} alt={m.name} style={{ width: "80px", height: "80px", borderRadius: "50%", objectFit: "cover", objectPosition: "center top", border: "2px solid #00d4ff", marginBottom: "0.75rem" }} />
+                  <div style={{ fontWeight: 600, fontSize: "0.9rem" }}>{m.name}</div>
+                  <div style={{ color: "#00d4ff", fontSize: "0.8rem", marginTop: "0.25rem" }}>{m.role}</div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
