@@ -1,5 +1,9 @@
 "use client";
 
+type ProjectsSectionProps = {
+  isMobile: boolean;
+};
+
 const projects = [
   {
     name: "Judo Monitoring",
@@ -38,9 +42,9 @@ const projects = [
   },
 ];
 
-export default function ProjectsSection() {
+export default function ProjectsSection({ isMobile }: ProjectsSectionProps) {
   return (
-    <section id="projects" style={{ padding: "6.5rem 2rem", borderTop: "1px solid rgba(255,255,255,0.06)", animation: "fadeInUp 0.95s ease both", position: "relative", zIndex: 1 }}>
+    <section id="projects" style={{ padding: isMobile ? "4rem 1rem" : "6.5rem 2rem", borderTop: "1px solid rgba(255,255,255,0.06)", animation: "fadeInUp 0.95s ease both", position: "relative", zIndex: 1 }}>
       <div style={{ maxWidth: "1140px", margin: "0 auto" }}>
         <div style={{ textAlign: "center", marginBottom: "3.5rem" }}>
           <p style={{ color: "#00d4ff", fontSize: "0.9rem", letterSpacing: "0.18em", textTransform: "uppercase", marginBottom: "0.85rem" }}>Portfolio</p>
@@ -48,7 +52,7 @@ export default function ProjectsSection() {
           <div style={{ width: "120px", height: "4px", margin: "0 auto", borderRadius: "999px", background: "#00d4ff" }} />
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "1.25rem" }}>
+        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(auto-fit, minmax(260px, 1fr))", gap: "1.25rem" }}>
           {projects.map((project) => (
             <div
               key={project.name}

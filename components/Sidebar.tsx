@@ -1,6 +1,8 @@
 "use client";
 
 type SidebarProps = {
+  className?: string;
+  isMobile: boolean;
   sidebarWidth: string;
   sidebarExpanded: boolean;
   activeSection: string;
@@ -12,6 +14,7 @@ type SidebarProps = {
   onOpenClientCabinet: () => void;
   onOpenSettings: () => void;
   onOpenTeam: () => void;
+  onOpenAdmin: () => void;
 };
 
 const navigationItems = [
@@ -43,6 +46,8 @@ const sidebarButtonBase = {
 };
 
 export default function Sidebar({
+  className,
+  isMobile,
   sidebarWidth,
   sidebarExpanded,
   activeSection,
@@ -54,9 +59,23 @@ export default function Sidebar({
   onOpenClientCabinet,
   onOpenSettings,
   onOpenTeam,
+  onOpenAdmin,
 }: SidebarProps) {
   return (
+    <>
+    {isMobile && sidebarExpanded ? (
+      <div
+        onClick={onToggleSidebar}
+        style={{
+          position: "fixed",
+          inset: 0,
+          background: "rgba(2,4,8,0.58)",
+          zIndex: 109,
+        }}
+      />
+    ) : null}
     <aside
+      className={className}
       style={{
         position: "fixed",
         top: 0,
@@ -64,15 +83,17 @@ export default function Sidebar({
         bottom: 0,
         width: sidebarWidth,
         background: "rgba(5,10,16,0.95)",
-        borderRight: "1px solid rgba(255,255,255,0.08)",
+        borderRight: isMobile && !sidebarExpanded ? "none" : "1px solid rgba(255,255,255,0.08)",
         display: "flex",
         flexDirection: "column",
         transition: "width 0.3s ease",
         zIndex: 110,
         overflow: "hidden",
         backdropFilter: "blur(12px)",
+        pointerEvents: isMobile && !sidebarExpanded ? "none" : "auto",
       }}
     >
+      {!isMobile ? (
       <button
         onClick={onToggleSidebar}
         style={{
@@ -87,8 +108,9 @@ export default function Sidebar({
         <span style={{ fontSize: "20px", minWidth: "20px", textAlign: "center" }}>{sidebarExpanded ? "✕" : "☰"}</span>
         <span style={sidebarLabelStyle(sidebarExpanded)}>Menyu</span>
       </button>
+      ) : null}
 
-      <div style={{ display: "flex", flexDirection: "column", gap: "0.35rem", marginTop: "1rem" }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: "0.35rem", marginTop: isMobile ? "4.5rem" : "1rem", paddingRight: isMobile ? "0.35rem" : 0 }}>
         {navigationItems.map((item) => (
           <button
             key={item.id}
@@ -226,9 +248,7 @@ export default function Sidebar({
 
         <button
           title="Admin Panel"
-          onClick={() => {
-            window.location.href = "/admin";
-          }}
+          onClick={onOpenAdmin}
           style={{
             ...sidebarButtonBase,
             background: "rgba(0,212,255,0.08)",
@@ -248,5 +268,6 @@ export default function Sidebar({
         </button>
       </div>
     </aside>
+    </>
   );
 }

@@ -9,12 +9,13 @@ type ClientMessage = {
 };
 
 type ClientCabinetProps = {
+  isMobile: boolean;
   open: boolean;
   onClose: () => void;
   onScrollToContact: () => void;
 };
 
-export default function ClientCabinet({ open, onClose, onScrollToContact }: ClientCabinetProps) {
+export default function ClientCabinet({ isMobile, open, onClose, onScrollToContact }: ClientCabinetProps) {
   const [clientLoggedIn, setClientLoggedIn] = useState(false);
   const [clientName, setClientName] = useState("");
   const [clientPhone, setClientPhone] = useState("");
@@ -74,14 +75,15 @@ export default function ClientCabinet({ open, onClose, onScrollToContact }: Clie
         <div
           onClick={(event) => event.stopPropagation()}
           style={{
-            width: "100%",
-            maxWidth: "400px",
+            width: isMobile ? "95vw" : "100%",
+            maxWidth: isMobile ? "95vw" : "400px",
             background: "rgba(10,15,26,0.92)",
             border: "1px solid rgba(255,255,255,0.08)",
             borderRadius: "24px",
             padding: "1.5rem",
             boxShadow: "0 30px 80px rgba(0,0,0,0.35)",
             backdropFilter: "blur(18px)",
+            margin: isMobile ? "1rem" : undefined,
           }}
         >
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1.25rem" }}>
@@ -162,8 +164,8 @@ export default function ClientCabinet({ open, onClose, onScrollToContact }: Clie
       <div
         onClick={(event) => event.stopPropagation()}
         style={{
-          width: "100%",
-          maxWidth: "700px",
+          width: isMobile ? "95vw" : "100%",
+          maxWidth: isMobile ? "95vw" : "700px",
           background: "rgba(10,15,26,0.94)",
           border: "1px solid rgba(255,255,255,0.08)",
           borderRadius: "24px",
@@ -172,6 +174,7 @@ export default function ClientCabinet({ open, onClose, onScrollToContact }: Clie
           backdropFilter: "blur(18px)",
           maxHeight: "90vh",
           overflowY: "auto",
+          margin: isMobile ? "1rem" : undefined,
         }}
       >
         <div style={{ display: "flex", justifyContent: "space-between", gap: "1rem", alignItems: "center", marginBottom: "1rem", flexWrap: "wrap" }}>
@@ -324,7 +327,7 @@ export default function ClientCabinet({ open, onClose, onScrollToContact }: Clie
         ) : null}
 
         {clientCabinetTab === "contact" ? (
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "1rem" }}>
+          <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(auto-fit, minmax(180px, 1fr))", gap: "1rem" }}>
             {[
               { icon: "📱", label: "Telegram", value: "+998 93 822 93 13" },
               { icon: "📧", label: "Email", value: "ulugbekrakximov4@gmail.com" },

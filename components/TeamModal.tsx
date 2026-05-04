@@ -1,6 +1,7 @@
 "use client";
 
 type TeamModalProps = {
+  isMobile: boolean;
   open: boolean;
   onClose: () => void;
 };
@@ -14,7 +15,7 @@ const teamMembers = [
   { name: "Abdiyev Fayoz", role: "Dasturchi", img: "/3-xodim2.jpg" },
 ];
 
-export default function TeamModal({ open, onClose }: TeamModalProps) {
+export default function TeamModal({ isMobile, open, onClose }: TeamModalProps) {
   if (!open) {
     return null;
   }
@@ -37,13 +38,14 @@ export default function TeamModal({ open, onClose }: TeamModalProps) {
       <div
         onClick={(event) => event.stopPropagation()}
         style={{
-          width: "100%",
-          maxWidth: "980px",
+          width: isMobile ? "95vw" : "100%",
+          maxWidth: isMobile ? "95vw" : "980px",
           background: "rgba(10,15,26,0.98)",
           border: "1px solid rgba(255,255,255,0.08)",
           borderRadius: "24px",
           padding: "1.5rem",
           boxShadow: "0 30px 80px rgba(0,0,0,0.35)",
+          margin: isMobile ? "1rem" : undefined,
         }}
       >
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1.5rem" }}>
@@ -53,7 +55,7 @@ export default function TeamModal({ open, onClose }: TeamModalProps) {
           </div>
           <button onClick={onClose} style={{ background: "transparent", border: "none", color: "#fff", cursor: "pointer", fontSize: "1.2rem" }}>✕</button>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: "1rem" }}>
+        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(3, minmax(0, 1fr))", gap: "1rem" }}>
           {teamMembers.map((member, index) => (
             <div
               key={`${member.name}-${index}`}
