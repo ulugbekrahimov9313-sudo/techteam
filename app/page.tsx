@@ -650,7 +650,7 @@ export default function Home() {
           </div>
         </section>
 
-        <footer style={{ padding: "2rem", borderTop: "1px solid rgba(255,255,255,0.08)" }}>
+        <footer style={{ padding: isMobile ? "2rem 2rem 6rem" : "2rem", borderTop: "1px solid rgba(255,255,255,0.08)" }}>
           <div style={{ maxWidth: "1120px", margin: "0 auto", color: "rgba(255,255,255,0.6)" }}>
             © 2026 Dasturlash departamenti. Soddalashtirilgan, barqaror versiya.
           </div>
@@ -792,6 +792,55 @@ export default function Home() {
           </div>
         </div>
       ) : null}
+
+      {isMobile && (
+        <nav style={{
+          position: "fixed",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          zIndex: 200,
+          background: "rgba(8,15,25,0.97)",
+          borderTop: "1px solid rgba(255,255,255,0.08)",
+          backdropFilter: "blur(10px)",
+          display: "flex",
+          justifyContent: "space-around",
+          alignItems: "center",
+          padding: "0.5rem 0",
+        }}>
+          {[
+            { icon: "🏠", label: "Bosh", action: () => scrollToSection("home") },
+            { icon: "🛠️", label: "Xizmat", action: () => scrollToSection("services") },
+            { icon: "🚀", label: "Loyiha", action: () => scrollToSection("projects") },
+            { icon: "👥", label: "Jamoa", action: () => setShowTeam(true) },
+            { icon: "👤", label: "Kabinet", action: () => setShowClientCabinet(true) },
+            { icon: "📬", label: "Aloqa", action: () => scrollToSection("contact") },
+            { icon: "🔐", label: "Admin", action: () => window.location.href = "/admin" },
+          ].map((item) => (
+            <button
+              key={item.label}
+              onClick={item.action}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: "0.2rem",
+                background: "transparent",
+                border: "none",
+                color: "rgba(255,255,255,0.7)",
+                cursor: "pointer",
+                padding: "0.4rem 0.5rem",
+                borderRadius: "8px",
+                fontSize: "0.6rem",
+                fontFamily: "inherit",
+              }}
+            >
+              <span style={{ fontSize: "1.2rem" }}>{item.icon}</span>
+              <span>{item.label}</span>
+            </button>
+          ))}
+        </nav>
+      )}
     </main>
   );
 }
